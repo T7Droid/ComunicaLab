@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "136776161625",
+    "project_id": "comunicalab-85d45",
+    "storage_bucket": "comunicalab-85d45.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:136776161625:android:151e1680f09a8bbf029448",
+        "android_client_info": {
+          "package_name": "com.example.comunicalablogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "136776161625-0lro2kf582hkvgjlvocdoh2f60rtj9dr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.comunicalablogin",
+            "certificate_hash": "f77ef0f4e2d294f00322dea50c2d88064aacaf62"
+          }
+        },
+        {
+          "client_id": "136776161625-28057ekuji5a82s8od58u83g4p9tbs4a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgci26-8EJwVc2-bDY_vL_Slxg5_q6z68"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "136776161625-28057ekuji5a82s8od58u83g4p9tbs4a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
