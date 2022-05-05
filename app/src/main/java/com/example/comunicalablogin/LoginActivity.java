@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
+import com.example.comunicalablogin.ui.RegisterUserActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -22,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private BootstrapEditText editEmail, editPassword;
     private BootstrapButton btnLogin, btnCancel;
+    private TextView tvRegisterUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         editPassword = (BootstrapEditText) findViewById(R.id.editPassword);
         btnLogin = (BootstrapButton) findViewById(R.id.btnLogin);
         btnCancel = (BootstrapButton) findViewById(R.id.btnCancel);
+        tvRegisterUser = (TextView) findViewById(R.id.tv_cadastrar);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        tvRegisterUser.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterUserActivity.class)));
     }
 
     @Override

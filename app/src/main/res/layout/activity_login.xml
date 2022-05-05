@@ -72,6 +72,15 @@
         app:roundedCorners="true"
         android:layout_margin="10dp"
     />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_cadastrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cadastrar"
+                android:textAlignment="center"
+                android:textColor="@color/white"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
