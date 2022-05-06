@@ -10,11 +10,14 @@ import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.example.comunicalablogin.R;
+import com.example.comunicalablogin.ui.model.Comunicado;
 import com.example.comunicalablogin.ui.model.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class RegisterUserActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -37,6 +40,8 @@ public class RegisterUserActivity extends AppCompatActivity {
         editNewPassword = (BootstrapEditText) findViewById(R.id.editNewPassword);
         btnRegister = (BootstrapButton) findViewById(R.id.btnRegister);
         btnCancel = (BootstrapButton) findViewById(R.id.btnCancel);
+
+        writeComunicados();
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +81,28 @@ public class RegisterUserActivity extends AppCompatActivity {
         userModel.id = key;
         mDatabase.child("usuários").child(key).setValue(userModel).addOnCompleteListener(task -> {
             Toast.makeText(RegisterUserActivity.this, "Usuário criado com sucesso",
+                    Toast.LENGTH_SHORT).show();
+            finish();
+        });
+    }
+
+    public void writeComunicados() {
+        ArrayList<Comunicado> listaComunicados = new ArrayList<Comunicado>();
+        Comunicado com1 = new Comunicado("Norma 1", "lorem ipsum");
+        Comunicado com2 = new Comunicado("Norma 2", "lorem ipsum");
+        Comunicado com3 = new Comunicado("Norma 3", "lorem ipsum");
+        Comunicado com4 = new Comunicado("Norma 4", "lorem ipsum");
+
+        listaComunicados.add(com1);
+        listaComunicados.add(com2);
+        listaComunicados.add(com3);
+        listaComunicados.add(com4);
+
+
+        String key = mDatabase.child("comunicados").push().getKey();
+        userModel.id = key;
+        mDatabase.child("comunicados").child(key).setValue(listaComunicados).addOnCompleteListener(task -> {
+            Toast.makeText(RegisterUserActivity.this, "Comunicado criado com sucesso",
                     Toast.LENGTH_SHORT).show();
             finish();
         });
