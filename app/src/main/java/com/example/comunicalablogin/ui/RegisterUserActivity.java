@@ -21,6 +21,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     private BootstrapEditText editNewEmail, editNewPassword, editNewName;
     private BootstrapButton btnRegister, btnCancel;
     private DatabaseReference mDatabase;
+    private DatabaseReference database;
     private UserModel userModel;
 
     @Override
@@ -73,7 +74,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     public void writeNewUser(UserModel userModel) {
         String key = mDatabase.child("users").push().getKey();
         userModel.id = key;
-        mDatabase.child(key).setValue(userModel).addOnCompleteListener(task -> {
+        mDatabase.child("usuários").child(key).setValue(userModel).addOnCompleteListener(task -> {
             Toast.makeText(RegisterUserActivity.this, "Usuário criado com sucesso",
                     Toast.LENGTH_SHORT).show();
             finish();
