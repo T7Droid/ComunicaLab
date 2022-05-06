@@ -41,7 +41,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         btnRegister = (BootstrapButton) findViewById(R.id.btnRegister);
         btnCancel = (BootstrapButton) findViewById(R.id.btnCancel);
 
-        writeComunicados();
+       //writeComunicados();
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,20 +88,17 @@ public class RegisterUserActivity extends AppCompatActivity {
 
     public void writeComunicados() {
         ArrayList<Comunicado> listaComunicados = new ArrayList<Comunicado>();
-        Comunicado com1 = new Comunicado("Norma 1", "lorem ipsum");
-        Comunicado com2 = new Comunicado("Norma 2", "lorem ipsum");
-        Comunicado com3 = new Comunicado("Norma 3", "lorem ipsum");
-        Comunicado com4 = new Comunicado("Norma 4", "lorem ipsum");
+        Comunicado com1 = new Comunicado("Norma 1", "lorem ipsum", "1");
+        Comunicado com2 = new Comunicado("Norma 2", "lorem ipsum", "2");
+        Comunicado com3 = new Comunicado("Norma 3", "lorem ipsum", "3");
+        Comunicado com4 = new Comunicado("Norma 4", "lorem ipsum", "4");
 
         listaComunicados.add(com1);
         listaComunicados.add(com2);
         listaComunicados.add(com3);
         listaComunicados.add(com4);
 
-
-        String key = mDatabase.child("comunicados").push().getKey();
-        userModel.id = key;
-        mDatabase.child("comunicados").child(key).setValue(listaComunicados).addOnCompleteListener(task -> {
+        mDatabase.child("comunicados").child("123").setValue(listaComunicados).addOnCompleteListener(task -> {
             Toast.makeText(RegisterUserActivity.this, "Comunicado criado com sucesso",
                     Toast.LENGTH_SHORT).show();
             finish();
