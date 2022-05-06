@@ -1,6 +1,5 @@
 package com.example.comunicalablogin.ui;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -11,24 +10,28 @@ import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.example.comunicalablogin.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.comunicalablogin.ui.model.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterUserActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    private BootstrapEditText editNewEmail, editNewPassword;
+    private BootstrapEditText editNewEmail, editNewPassword, editNewName;
     private BootstrapButton btnRegister, btnCancel;
+    private DatabaseReference mDatabase;
+    private UserModel userModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
 
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();
+        editNewName = (BootstrapEditText) findViewById(R.id.editNewName);
         editNewEmail = (BootstrapEditText) findViewById(R.id.editNewEmail);
         editNewPassword = (BootstrapEditText) findViewById(R.id.editNewPassword);
         btnRegister = (BootstrapButton) findViewById(R.id.btnRegister);
@@ -37,41 +40,43 @@ public class RegisterUserActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(RegisterUserActivity.this, "Salvando usuário",
+                        Toast.LENGTH_SHORT).show();
                 String email = editNewEmail.getText().toString();
                 String password = editNewPassword.getText().toString();
-
-                createNewUser(email, password);
+                String name = editNewName.getText().toString();
+                userModel = new UserModel(name, email, "");
+                createNewUser(userModel, password);
             }
         });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        btnCancel.setOnClickListener(v -> finish());
     }
 
-    private void createNewUser(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(RegisterUserActivity.this, "Usuário criado com sucesso",
-                                    Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            finish();
-
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterUserActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-
-                        }
+    private void createNewUser(UserModel userModel, String password) {
+        mAuth.createUserWithEmailAndPassword(userModel.email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(RegisterUserActivity.this, "Usuário criado com sucesso",
+                                Toast.LENGTH_SHORT).show();
+                        FirebaseUser user2 = mAuth.getCurrentUser();
+                        userModel.id = user2.getProviderId();
+                        writeNewUser(userModel);
+                    } else {
+                        Log.w("TAG", "createUserWithEmail:failure", task.getException());
+                        Toast.makeText(RegisterUserActivity.this, "Falha ao cadastrar",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public void writeNewUser(UserModel userModel) {
+        String key = mDatabase.child("users").push().getKey();
+        userModel.id = key;
+        mDatabase.child(key).setValue(userModel).addOnCompleteListener(task -> {
+            Toast.makeText(RegisterUserActivity.this, "Usuário criado com sucesso",
+                    Toast.LENGTH_SHORT).show();
+            finish();
+        });
     }
 }

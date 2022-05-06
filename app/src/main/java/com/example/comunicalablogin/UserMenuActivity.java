@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class UserMenuActivity extends AppCompatActivity {
@@ -17,6 +18,7 @@ public class UserMenuActivity extends AppCompatActivity {
     private BootstrapButton btnClose;
     private BootstrapButton btnAnnouncements;
     private FirebaseDatabase database;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class UserMenuActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         database = FirebaseDatabase.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         btnAnnouncements = (BootstrapButton) findViewById(R.id.btnAnnouncements);
 
